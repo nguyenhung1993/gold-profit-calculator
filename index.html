@@ -52,17 +52,6 @@
                     <h2>Danh Sách Giao Dịch Mua Vàng</h2>
                 </div>
 
-                <div class="table-actions">
-                    <button id="addRowBtn" class="btn btn-primary">
-                        <span>➕</span> Thêm Dòng
-                    </button>
-                    <button id="loadSampleBtn" class="btn btn-secondary">
-                        <span>📥</span> Tải Dữ Liệu Mẫu
-                    </button>
-                    <button id="clearAllBtn" class="btn btn-danger">
-                        <span>🗑️</span> Xóa Tất Cả
-                    </button>
-                </div>
 
                 <div class="table-wrapper">
                     <table id="transactionsTable">
@@ -81,6 +70,14 @@
                             <!-- Dynamic rows will be inserted here -->
                         </tbody>
                     </table>
+                </div>
+                <div class="table-actions">
+                    <button id="addRowBtn" class="btn btn-primary">
+                        <span>➕</span> Thêm Dòng
+                    </button>
+                    <button id="saveBtn" class="btn btn-success" style="background-color: #28a745; color: white;">
+                        <span>💾</span> Lưu Dữ Liệu
+                    </button>
                 </div>
                 <p class="unit-hint">ℹ️ Quy đổi: 1 Cây = 10 Chỉ</p>
             </section>
@@ -166,17 +163,6 @@
                     <h2>Danh Sách Giao Dịch Mua Bạc</h2>
                 </div>
 
-                <div class="table-actions">
-                    <button id="silverAddRowBtn" class="btn btn-primary">
-                        <span>➕</span> Thêm Dòng
-                    </button>
-                    <button id="silverLoadSampleBtn" class="btn btn-secondary">
-                        <span>📥</span> Tải Dữ Liệu Mẫu
-                    </button>
-                    <button id="silverClearAllBtn" class="btn btn-danger">
-                        <span>🗑️</span> Xóa Tất Cả
-                    </button>
-                </div>
 
                 <div class="table-wrapper">
                     <table id="silverTransactionsTable">
@@ -195,6 +181,14 @@
                             <!-- Dynamic rows will be inserted here -->
                         </tbody>
                     </table>
+                </div>
+                <div class="table-actions">
+                    <button id="silverAddRowBtn" class="btn btn-primary">
+                        <span>➕</span> Thêm Dòng
+                    </button>
+                    <button id="silverSaveBtn" class="btn btn-success" style="background-color: #28a745; color: white;">
+                        <span>💾</span> Lưu Dữ Liệu
+                    </button>
                 </div>
                 <p class="unit-hint">ℹ️ Quy đổi: 1 Lượng = 0.0375 Kg (37.5g)</p>
             </section>

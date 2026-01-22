@@ -48,8 +48,7 @@ function getElements(type) {
 
         // Buttons
         addRowBtn: document.getElementById(type === 'gold' ? 'addRowBtn' : 'silverAddRowBtn'),
-        loadSampleBtn: document.getElementById(type === 'gold' ? 'loadSampleBtn' : 'silverLoadSampleBtn'),
-        clearAllBtn: document.getElementById(type === 'gold' ? 'clearAllBtn' : 'silverClearAllBtn'),
+        saveBtn: document.getElementById(type === 'gold' ? 'saveBtn' : 'silverSaveBtn'),
 
         // Summary
         totalChiEl: document.getElementById(type === 'gold' ? 'totalChi' : 'silverTotalChi'),
@@ -329,37 +328,6 @@ function deleteTransaction(type, id) {
     saveData();
 }
 
-function clearAllData(type) {
-    if (confirm(`Bạn có chắc muốn xóa tất cả dữ liệu ${type === 'gold' ? 'Vàng' : 'Bạc'}?`)) {
-        appState[type].transactions = [];
-        appState[type].idCounter = 0;
-        renderTable(type);
-        calculateSummary(type);
-        saveData();
-    }
-}
-
-function loadSample(type) {
-    if (appState[type].transactions.length > 0) {
-        if (!confirm('Dữ liệu hiện tại sẽ bị thay thế. Tiếp tục?')) return;
-    }
-
-    appState[type].transactions = [];
-    appState[type].idCounter = 0;
-
-    SAMPLE_DATA[type].forEach(item => {
-        appState[type].transactions.push({
-            id: appState[type].idCounter++,
-            qty: item.qty,
-            unit: item.unit,
-            buyPrice: item.buyPrice
-        });
-    });
-
-    renderTable(type);
-    calculateSummary(type);
-    saveData();
-}
 
 // ===== Rendering =====
 
@@ -487,11 +455,15 @@ function attachEvents(type) {
     // Add Row
     els.addRowBtn.addEventListener('click', () => addTransaction(type));
 
-    // Load Sample
-    els.loadSampleBtn.addEventListener('click', () => loadSample(type));
+    // Save Data
+    if (els.saveBtn) {
+        els.saveBtn.addEventListener('click', () => {
+            saveToAPI().then(() => {
+                showStatus('Đã lưu dữ liệu thành công!');
+            });
+        });
+    }
 
-    // Clear All
-    els.clearAllBtn.addEventListener('click', () => clearAllData(type));
 
     // Sell Price Change
     els.sellPriceInput.addEventListener('input', () => {
