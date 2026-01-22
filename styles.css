@@ -640,6 +640,20 @@ tbody select option {
             font-size: 0.9rem;
         }
 
+        .transactions-section {
+            padding: 15px 10px;
+            /* Reduced padding */
+        }
+
+        .table-actions {
+            margin-bottom: 15px;
+            /* Add space below moved buttons */
+        }
+
+        .table-wrapper {
+            margin-bottom: 0;
+        }
+
         /* Optimized Table for Mobile */
         .col-stt,
         .col-qty-chi {
@@ -664,8 +678,16 @@ tbody select option {
 
         tbody input,
         tbody select {
-            padding: 8px;
+            padding: 8px 4px;
+            /* Reduced horizontal padding */
             font-size: 0.9rem;
+        }
+
+        /* Smaller Delete Button on Mobile */
+        .btn-delete {
+            width: 28px;
+            height: 28px;
+            font-size: 0.8rem;
         }
 
         /* Specific Column Widths */
