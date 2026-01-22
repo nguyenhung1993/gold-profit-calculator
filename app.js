@@ -291,8 +291,9 @@ function renderTable() {
             <td>
                 <input type="number" 
                        value="${t.qty}" 
-                       step="0.1" 
+                       step="any" 
                        min="0" 
+                       inputmode="decimal"
                        data-id="${t.id}" 
                        data-field="qty">
             </td>
@@ -306,8 +307,9 @@ function renderTable() {
             <td>
                 <input type="number" 
                        value="${t.buyPrice}" 
-                       step="0.001" 
+                       step="any" 
                        min="0" 
+                       inputmode="decimal"
                        data-id="${t.id}" 
                        data-field="buyPrice">
             </td>
