@@ -1,0 +1,16 @@
+# Node modules
+node_modules/
+npm-debug.log
+
+# Mac OS
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+
+# Environment variables
+.env
+
+# Data (optional - if you don't want to commit the data)
+# server/data.json

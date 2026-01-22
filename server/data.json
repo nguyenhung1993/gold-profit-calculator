@@ -1,0 +1,84 @@
+{
+  "transactions": [
+    {
+      "id": 0,
+      "qty": 1,
+      "unit": "cay",
+      "buyPrice": 10.71
+    },
+    {
+      "id": 1,
+      "qty": 2,
+      "unit": "cay",
+      "buyPrice": 10.85
+    },
+    {
+      "id": 2,
+      "qty": 1,
+      "unit": "cay",
+      "buyPrice": 11.75
+    },
+    {
+      "id": 3,
+      "qty": 4,
+      "unit": "chi",
+      "buyPrice": 13.65
+    },
+    {
+      "id": 4,
+      "qty": 6,
+      "unit": "chi",
+      "buyPrice": 14.85
+    },
+    {
+      "id": 5,
+      "qty": 3,
+      "unit": "chi",
+      "buyPrice": 16
+    },
+    {
+      "id": 6,
+      "qty": 1,
+      "unit": "chi",
+      "buyPrice": 14.9
+    },
+    {
+      "id": 7,
+      "qty": 1,
+      "unit": "cay",
+      "buyPrice": 14.55
+    },
+    {
+      "id": 8,
+      "qty": 1,
+      "unit": "chi",
+      "buyPrice": 14.4
+    },
+    {
+      "id": 9,
+      "qty": 7,
+      "unit": "chi",
+      "buyPrice": 14.43
+    },
+    {
+      "id": 10,
+      "qty": 3,
+      "unit": "chi",
+      "buyPrice": 15.1
+    },
+    {
+      "id": 11,
+      "qty": 1,
+      "unit": "cay",
+      "buyPrice": 15.2
+    },
+    {
+      "id": 12,
+      "qty": 5,
+      "unit": "chi",
+      "buyPrice": 16.5
+    }
+  ],
+  "sellPrice": 14.5,
+  "lastUpdated": "2026-01-22T04:04:16.992Z"
+}

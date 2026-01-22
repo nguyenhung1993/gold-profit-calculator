@@ -1,0 +1,651 @@
+/* ===== CSS Variables ===== */
+:root {
+    --gold-primary: #FFD700;
+    --gold-secondary: #FFA500;
+    --gold-dark: #B8860B;
+    --gold-light: #FFFACD;
+
+    --bg-dark: #0a0a0f;
+    --bg-gradient: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #16213e 100%);
+
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255, 255, 255, 0.7);
+    --text-muted: rgba(255, 255, 255, 0.5);
+
+    --success: #00ff88;
+    --success-bg: rgba(0, 255, 136, 0.1);
+    --danger: #ff4757;
+    --danger-bg: rgba(255, 71, 87, 0.1);
+
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 20px;
+    --radius-xl: 28px;
+
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ===== Reset & Base ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg-gradient);
+    color: var(--text-primary);
+    min-height: 100vh;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ===== App Container ===== */
+.app-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+/* ===== Glass Card ===== */
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--glass-shadow);
+    transition: var(--transition);
+}
+
+.glass-card:hover {
+    border-color: rgba(255, 215, 0, 0.3);
+    box-shadow: 0 8px 32px rgba(255, 215, 0, 0.1);
+}
+
+/* ===== Header ===== */
+.header {
+    text-align: center;
+    padding: 40px 20px;
+    margin-bottom: 30px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.logo-icon {
+    font-size: 48px;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.header h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--gold-primary), var(--gold-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.tagline {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+/* ===== Panel Header ===== */
+.panel-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.panel-icon {
+    font-size: 1.5rem;
+}
+
+.panel-header h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--gold-primary);
+}
+
+/* ===== Current Price Panel ===== */
+.current-price-panel {
+    padding: 25px;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.price-input-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.price-input-wrapper input {
+    width: 180px;
+    padding: 15px 20px;
+    font-size: 2rem;
+    font-weight: 700;
+    text-align: center;
+    background: rgba(255, 215, 0, 0.1);
+    border: 2px solid var(--gold-primary);
+    border-radius: var(--radius-md);
+    color: var(--gold-primary);
+    outline: none;
+    transition: var(--transition);
+}
+
+.price-input-wrapper input:focus {
+    background: rgba(255, 215, 0, 0.2);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+}
+
+.price-input-wrapper .unit {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+}
+
+.hint {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+/* ===== Transactions Section ===== */
+.transactions-section {
+    padding: 25px;
+    margin-bottom: 25px;
+    overflow: hidden;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px;
+}
+
+thead th {
+    background: rgba(255, 215, 0, 0.15);
+    color: var(--gold-primary);
+    font-weight: 600;
+    padding: 15px 12px;
+    text-align: left;
+    font-size: 0.9rem;
+    border-bottom: 2px solid var(--gold-dark);
+}
+
+thead th:first-child {
+    border-radius: var(--radius-sm) 0 0 0;
+    text-align: center;
+    width: 50px;
+}
+
+thead th:last-child {
+    border-radius: 0 var(--radius-sm) 0 0;
+    text-align: center;
+    width: 60px;
+}
+
+tbody tr {
+    border-bottom: 1px solid var(--glass-border);
+    transition: var(--transition);
+}
+
+tbody tr:hover {
+    background: rgba(255, 215, 0, 0.05);
+}
+
+tbody td {
+    padding: 12px;
+    vertical-align: middle;
+}
+
+tbody td:first-child {
+    text-align: center;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+tbody td:last-child {
+    text-align: center;
+}
+
+/* ===== Form Inputs in Table ===== */
+tbody input,
+tbody select {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 0.95rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-sm);
+    color: var(--text-primary);
+    outline: none;
+    transition: var(--transition);
+}
+
+tbody input:focus,
+tbody select:focus {
+    border-color: var(--gold-primary);
+    background: rgba(255, 215, 0, 0.1);
+}
+
+tbody input[type="number"] {
+    text-align: right;
+}
+
+tbody select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23FFD700' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 35px;
+}
+
+tbody select option {
+    background: #1a1a2e;
+    color: var(--text-primary);
+}
+
+.calculated-value {
+    font-weight: 600;
+    color: var(--gold-light);
+    text-align: right;
+}
+
+/* ===== Delete Button ===== */
+.btn-delete {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--danger-bg);
+    border: 1px solid var(--danger);
+    border-radius: var(--radius-sm);
+    color: var(--danger);
+    cursor: pointer;
+    font-size: 1rem;
+    transition: var(--transition);
+}
+
+.btn-delete:hover {
+    background: var(--danger);
+    color: white;
+    transform: scale(1.1);
+}
+
+/* ===== Table Actions ===== */
+.table-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--gold-primary), var(--gold-secondary));
+    color: #000;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+}
+
+.btn-secondary {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    color: var(--text-primary);
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--gold-primary);
+}
+
+.btn-danger {
+    background: var(--danger-bg);
+    border: 1px solid var(--danger);
+    color: var(--danger);
+}
+
+.btn-danger:hover {
+    background: var(--danger);
+    color: white;
+}
+
+/* ===== Summary Section ===== */
+.summary-section {
+    margin-bottom: 30px;
+}
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.summary-card {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.summary-icon {
+    font-size: 2rem;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 215, 0, 0.1);
+    border-radius: var(--radius-md);
+}
+
+.summary-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.summary-label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+}
+
+.summary-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--gold-primary);
+}
+
+.summary-sub {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+/* ===== Profit Card ===== */
+.profit-card {
+    padding: 30px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.profit-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--gold-primary), var(--gold-secondary));
+}
+
+.profit-card.profit::before {
+    background: linear-gradient(90deg, var(--success), #00cc6a);
+}
+
+.profit-card.loss::before {
+    background: linear-gradient(90deg, var(--danger), #ff6b7a);
+}
+
+.profit-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.profit-icon {
+    font-size: 2rem;
+}
+
+.profit-header h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.profit-value-wrapper {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.profit-value {
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: var(--gold-primary);
+    transition: var(--transition);
+}
+
+.profit-card.profit .profit-value {
+    color: var(--success);
+}
+
+.profit-card.loss .profit-value {
+    color: var(--danger);
+}
+
+.profit-unit {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+}
+
+.profit-percentage {
+    font-size: 1.5rem;
+    font-weight: 700;
+    padding: 8px 20px;
+    border-radius: 50px;
+    display: inline-block;
+    background: rgba(255, 215, 0, 0.1);
+    color: var(--gold-primary);
+}
+
+.profit-card.profit .profit-percentage {
+    background: var(--success-bg);
+    color: var(--success);
+}
+
+.profit-card.loss .profit-percentage {
+    background: var(--danger-bg);
+    color: var(--danger);
+}
+
+/* ===== Footer ===== */
+.footer {
+    text-align: center;
+    padding: 30px 20px;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.footer a {
+    color: var(--gold-primary);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+.version {
+    margin-top: 8px;
+    font-size: 0.8rem;
+    opacity: 0.7;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+    .app-container {
+        padding: 15px;
+    }
+
+    .header h1 {
+        font-size: 1.8rem;
+    }
+
+    .logo-icon {
+        font-size: 36px;
+    }
+
+    .price-input-wrapper input {
+        width: 140px;
+        font-size: 1.5rem;
+        padding: 12px 15px;
+    }
+
+    .table-actions {
+        justify-content: center;
+    }
+
+    .btn {
+        padding: 10px 16px;
+        font-size: 0.9rem;
+    }
+
+    .summary-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .summary-card {
+        padding: 15px;
+    }
+
+    .summary-value {
+        font-size: 1.25rem;
+    }
+
+    .profit-value {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .summary-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .header {
+        padding: 25px 15px;
+    }
+
+    .table-actions {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* ===== Animations ===== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.glass-card {
+    animation: fadeIn 0.5s ease-out;
+}
+
+.summary-card:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.summary-card:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.summary-card:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.summary-card:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+/* ===== Scrollbar ===== */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 215, 0, 0.3);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 215, 0, 0.5);
+}
