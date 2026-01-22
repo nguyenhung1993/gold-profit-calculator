@@ -510,6 +510,10 @@ async function init() {
 
     // Default Tab
     switchTab('gold');
+
+    // Tab Event Listeners
+    document.getElementById('tabGold').addEventListener('click', () => switchTab('gold'));
+    document.getElementById('tabSilver').addEventListener('click', () => switchTab('silver'));
 }
 
 document.addEventListener('DOMContentLoaded', init);
