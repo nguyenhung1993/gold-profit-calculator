@@ -29,8 +29,8 @@ const SAMPLE_DATA = {
         { qty: 1, unit: 'cay', buyPrice: 11.750 },
     ],
     silver: [
-        { qty: 1, unit: 'cay', buyPrice: 0.450 },
-        { qty: 2, unit: 'cay', buyPrice: 0.480 },
+        { qty: 1, unit: 'kg', buyPrice: 0.450 },
+        { qty: 2, unit: 'luong', buyPrice: 0.480 },
     ]
 };
 
@@ -76,12 +76,23 @@ function formatNumber(num, decimals = 2) {
     });
 }
 
-function qtyToChi(qty, unit) {
-    return unit === 'cay' ? qty * 10 : qty;
+const UNIT_CONVERTERS = {
+    gold: {
+        toStandard: (qty, unit) => unit === 'cay' ? qty * 10 : qty, // Standard: Chi
+        fromStandard: (std) => std / 10 // To Cay
+    },
+    silver: {
+        toStandard: (qty, unit) => unit === 'luong' ? qty * 0.0375 : qty, // Standard: Kg (1 Lượng = 0.0375 Kg)
+        fromStandard: (std) => std / 0.0375 // To Luong
+    }
+};
+
+function convertToStandard(type, qty, unit) {
+    return UNIT_CONVERTERS[type].toStandard(qty, unit);
 }
 
-function chiToCay(chi) {
-    return chi / 10;
+function convertFromStandard(type, std) {
+    return UNIT_CONVERTERS[type].fromStandard(std);
 }
 
 function showStatus(message, isError = false) {
@@ -266,7 +277,7 @@ function addTransaction(type) {
     const newTx = {
         id: state.idCounter++,
         qty: 1,
-        unit: 'chi',
+        unit: type === 'gold' ? 'chi' : 'kg',
         buyPrice: 0
     };
     state.transactions.push(newTx);
@@ -286,11 +297,8 @@ function updateTransaction(type, id, field, value) {
         }
         calculateSummary(type);
         saveData();
-        // Note: No need to re-render table for input changes to avoid losing focus
-        // Unless unit changes, which updates calculation display?
+        // Update specific row display
         if (field === 'unit' || field === 'qty' || field === 'buyPrice') {
-            // Update specific row calculation if needed, or just let summary handle it
-            // Better to update the "Thành tiền" cell specifically
             updateRowDisplay(type, tx);
         }
     }
@@ -302,14 +310,16 @@ function updateRowDisplay(type, tx) {
     const row = els.tableBody.querySelector(`tr[data-id="${tx.id}"]`);
     if (!row) return;
 
-    const qtyChi = qtyToChi(tx.qty, tx.unit);
-    const total = qtyChi * tx.buyPrice;
+    const qtyStandard = convertToStandard(type, tx.qty, tx.unit);
+    const total = qtyStandard * tx.buyPrice;
 
-    // Update computed cells
-    // 4th cell: SL (Chỉ) -> index 3
-    // 6th cell: Thành tiền -> index 5
-    row.cells[3].textContent = formatNumber(qtyChi);
-    row.cells[5].textContent = formatNumber(total) + ' tr';
+    // Update computed cells using class selectors
+    // Ensure exact class names matching renderTable
+    const qtyCell = row.querySelector('.col-qty-chi');
+    const totalCell = row.querySelector('.col-total');
+
+    if (qtyCell) qtyCell.textContent = formatNumber(qtyStandard, 3);
+    if (totalCell) totalCell.textContent = formatNumber(total) + ' tr';
 }
 
 function deleteTransaction(type, id) {
@@ -373,11 +383,26 @@ function renderTable(type) {
     }
 
     transactions.forEach((t, index) => {
-        const qtyChi = qtyToChi(t.qty, t.unit);
-        const total = qtyChi * t.buyPrice;
+        const qtyStandard = convertToStandard(type, t.qty, t.unit);
+        const total = qtyStandard * t.buyPrice;
 
         const row = document.createElement('tr');
         row.dataset.id = t.id; // Mark row for easier selection
+
+        // Unit Options Logic
+        let unitOptions = '';
+        if (type === 'gold') {
+            unitOptions = `
+                <option value="chi" ${t.unit === 'chi' ? 'selected' : ''}>Chỉ</option>
+                <option value="cay" ${t.unit === 'cay' ? 'selected' : ''}>Cây</option>
+            `;
+        } else {
+            unitOptions = `
+                <option value="kg" ${t.unit === 'kg' ? 'selected' : ''}>Kg</option>
+                <option value="luong" ${t.unit === 'luong' ? 'selected' : ''}>Lượng</option>
+            `;
+        }
+
         row.innerHTML = `
             <td class="col-stt">${index + 1}</td>
             <td class="col-qty">
@@ -385,11 +410,10 @@ function renderTable(type) {
             </td>
             <td class="col-unit">
                 <select data-id="${t.id}" data-field="unit">
-                    <option value="chi" ${t.unit === 'chi' ? 'selected' : ''}>Chỉ</option>
-                    <option value="cay" ${t.unit === 'cay' ? 'selected' : ''}>Cây</option>
+                    ${unitOptions}
                 </select>
             </td>
-            <td class="col-qty-chi calculated-value">${formatNumber(qtyChi)}</td>
+            <td class="col-qty-chi calculated-value">${formatNumber(qtyStandard, 3)}</td>
             <td class="col-price">
                 <input type="number" value="${t.buyPrice}" step="any" min="0" inputmode="decimal" data-id="${t.id}" data-field="buyPrice">
             </td>
@@ -410,23 +434,27 @@ function calculateSummary(type) {
     // Update state sellPrice
     state.sellPrice = sellPrice;
 
-    let totalChi = 0;
+    let totalStandard = 0;
     let totalBuy = 0;
 
     state.transactions.forEach(t => {
-        const qtyChi = qtyToChi(t.qty, t.unit);
-        totalChi += qtyChi;
-        totalBuy += qtyChi * t.buyPrice;
+        const qtyStandard = convertToStandard(type, t.qty, t.unit);
+        totalStandard += qtyStandard;
+        totalBuy += qtyStandard * t.buyPrice;
     });
 
-    const totalSell = totalChi * sellPrice;
+    const totalSell = totalStandard * sellPrice;
     const profit = totalSell - totalBuy;
-    const breakEven = totalChi > 0 ? totalBuy / totalChi : 0;
+    const breakEven = totalStandard > 0 ? totalBuy / totalStandard : 0;
     const profitPercent = totalBuy > 0 ? (profit / totalBuy) * 100 : 0;
 
     // DOM Updates
-    els.totalChiEl.textContent = formatNumber(totalChi);
-    els.totalCayEl.textContent = formatNumber(chiToCay(totalChi), 1);
+    els.totalChiEl.textContent = formatNumber(totalStandard, 3);
+
+    // Convert back to secondary unit (Gold: Cay, Silver: Luong)
+    const convertedUnitVal = convertFromStandard(type, totalStandard);
+    els.totalCayEl.textContent = formatNumber(convertedUnitVal, 1);
+
     els.totalBuyEl.textContent = formatNumber(totalBuy);
     els.totalSellEl.textContent = formatNumber(totalSell);
     els.breakEvenEl.textContent = formatNumber(breakEven, 3);
@@ -483,8 +511,9 @@ function attachEvents(type) {
 
     // Delete Button
     els.tableBody.addEventListener('click', (e) => {
-        if (e.target.matches('.btn-delete')) {
-            const id = parseInt(e.target.dataset.id);
+        if (e.target.matches('.btn-delete') || e.target.closest('.btn-delete')) {
+            const btn = e.target.matches('.btn-delete') ? e.target : e.target.closest('.btn-delete');
+            const id = parseInt(btn.dataset.id);
             deleteTransaction(type, id);
         }
     });
