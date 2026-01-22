@@ -379,22 +379,22 @@ function renderTable(type) {
         const row = document.createElement('tr');
         row.dataset.id = t.id; // Mark row for easier selection
         row.innerHTML = `
-            <td>${index + 1}</td>
-            <td>
+            <td class="col-stt">${index + 1}</td>
+            <td class="col-qty">
                 <input type="number" value="${t.qty}" step="any" min="0" inputmode="decimal" data-id="${t.id}" data-field="qty">
             </td>
-            <td>
+            <td class="col-unit">
                 <select data-id="${t.id}" data-field="unit">
                     <option value="chi" ${t.unit === 'chi' ? 'selected' : ''}>Chỉ</option>
                     <option value="cay" ${t.unit === 'cay' ? 'selected' : ''}>Cây</option>
                 </select>
             </td>
-            <td class="calculated-value">${formatNumber(qtyChi)}</td>
-            <td>
+            <td class="col-qty-chi calculated-value">${formatNumber(qtyChi)}</td>
+            <td class="col-price">
                 <input type="number" value="${t.buyPrice}" step="any" min="0" inputmode="decimal" data-id="${t.id}" data-field="buyPrice">
             </td>
-            <td class="calculated-value">${formatNumber(total)} tr</td>
-            <td>
+            <td class="col-total calculated-value">${formatNumber(total)} tr</td>
+            <td class="col-action">
                 <button class="btn-delete" data-id="${t.id}" title="Xóa dòng này">✕</button>
             </td>
         `;

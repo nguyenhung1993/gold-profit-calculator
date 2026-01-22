@@ -611,43 +611,106 @@ tbody select option {
         padding: 15px;
     }
 
-    .header h1 {
-        font-size: 1.8rem;
-    }
+    /* ===== Responsive ===== */
+    @media (max-width: 768px) {
+        .app-container {
+            padding: 15px;
+        }
 
-    .logo-icon {
-        font-size: 36px;
-    }
+        .header h1 {
+            font-size: 1.8rem;
+        }
 
-    .price-input-wrapper input {
-        width: 140px;
-        font-size: 1.5rem;
-        padding: 12px 15px;
-    }
+        .logo-icon {
+            font-size: 36px;
+        }
 
-    .table-actions {
-        justify-content: center;
-    }
+        .price-input-wrapper input {
+            width: 140px;
+            font-size: 1.5rem;
+            padding: 12px 15px;
+        }
 
-    .btn {
-        padding: 10px 16px;
-        font-size: 0.9rem;
-    }
+        .table-actions {
+            justify-content: center;
+        }
 
-    .summary-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
+        .btn {
+            padding: 10px 16px;
+            font-size: 0.9rem;
+        }
 
-    .summary-card {
-        padding: 15px;
-    }
+        /* Optimized Table for Mobile */
+        .col-stt,
+        .col-qty-chi {
+            display: none;
+            /* Hide STT and Converted Qty to save space */
+        }
 
-    .summary-value {
-        font-size: 1.25rem;
-    }
+        table {
+            min-width: 100%;
+            /* Allow table to shrink */
+            font-size: 0.9rem;
+        }
 
-    .profit-value {
-        font-size: 2.5rem;
+        thead th {
+            padding: 10px 5px;
+            font-size: 0.8rem;
+        }
+
+        tbody td {
+            padding: 8px 4px;
+        }
+
+        tbody input,
+        tbody select {
+            padding: 8px;
+            font-size: 0.9rem;
+        }
+
+        /* Specific Column Widths */
+        .col-qty {
+            width: 25%;
+        }
+
+        .col-unit {
+            width: 20%;
+        }
+
+        .col-price {
+            width: 25%;
+        }
+
+        .col-total {
+            width: 20%;
+        }
+
+        .col-action {
+            width: 10%;
+        }
+
+        /* Summary Grid */
+        .summary-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .summary-card {
+            padding: 15px;
+        }
+
+        .summary-icon {
+            width: 40px;
+            height: 40px;
+            font-size: 1.5rem;
+        }
+
+        .summary-value {
+            font-size: 1.25rem;
+        }
+
+        .profit-value {
+            font-size: 2.5rem;
+        }
     }
 }
 
