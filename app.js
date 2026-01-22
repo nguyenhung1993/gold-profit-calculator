@@ -2,7 +2,7 @@
 // With Backend API Support
 
 // API Configuration
-const API_URL = 'http://localhost:3001/api';
+const API_URL = 'https://gold-profit-calculator.onrender.com/api';
 let useAPI = true; // Will fallback to LocalStorage if API unavailable
 
 // Sample data from the image (for demo)
