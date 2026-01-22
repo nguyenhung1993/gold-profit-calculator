@@ -10,15 +10,6 @@ const SAMPLE_DATA = [
     { qty: 1, unit: 'cay', buyPrice: 10.710 },
     { qty: 2, unit: 'cay', buyPrice: 10.850 },
     { qty: 1, unit: 'cay', buyPrice: 11.750 },
-    { qty: 4, unit: 'chi', buyPrice: 13.650 },
-    { qty: 6, unit: 'chi', buyPrice: 14.850 },
-    { qty: 3, unit: 'chi', buyPrice: 16.000 },
-    { qty: 1, unit: 'chi', buyPrice: 14.900 },
-    { qty: 1, unit: 'cay', buyPrice: 14.550 },
-    { qty: 1, unit: 'chi', buyPrice: 14.400 },
-    { qty: 7, unit: 'chi', buyPrice: 14.430 },
-    { qty: 3, unit: 'chi', buyPrice: 15.100 },
-    { qty: 1, unit: 'cay', buyPrice: 15.200 }
 ];
 
 // App State
