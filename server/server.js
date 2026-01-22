@@ -56,11 +56,17 @@ async function getData() {
         return {
             transactions: data.transactions || [],
             sellPrice: data.sell_price || 14.5,
+            silverTransactions: data.silver_transactions || [],
+            silverSellPrice: data.silver_sell_price || 0,
             lastUpdated: data.updated_at
         };
     } catch (error) {
         console.error('Error getting data:', error.message);
-        return { transactions: [], sellPrice: 14.5, lastUpdated: new Date().toISOString() };
+        return {
+            transactions: [], sellPrice: 14.5,
+            silverTransactions: [], silverSellPrice: 0,
+            lastUpdated: new Date().toISOString()
+        };
     }
 }
 
@@ -87,25 +93,35 @@ async function createInitialData() {
     return {
         transactions: data.transactions || [],
         sellPrice: data.sell_price || 14.5,
+        silverTransactions: [],
+        silverSellPrice: 0,
         lastUpdated: data.updated_at
     };
 }
 
 // Save data to Supabase
-async function saveData(transactions, sellPrice) {
+async function saveData(dataPayload) {
     if (!supabase) {
         return { success: false, error: 'Database not connected' };
     }
 
     try {
+        const { transactions, sellPrice, silverTransactions, silverSellPrice } = dataPayload;
+
+        const upsertData = {
+            doc_id: 'main',
+            transactions: transactions,
+            sell_price: sellPrice,
+            updated_at: new Date().toISOString()
+        };
+
+        // Only add silver fields if they are provided (for backward compatibility if needed)
+        if (silverTransactions !== undefined) upsertData.silver_transactions = silverTransactions;
+        if (silverSellPrice !== undefined) upsertData.silver_sell_price = silverSellPrice;
+
         const { data, error } = await supabase
             .from('calculator_data')
-            .upsert({
-                doc_id: 'main',
-                transactions: transactions,
-                sell_price: sellPrice,
-                updated_at: new Date().toISOString()
-            }, {
+            .upsert(upsertData, {
                 onConflict: 'doc_id'
             })
             .select()
@@ -118,6 +134,8 @@ async function saveData(transactions, sellPrice) {
             data: {
                 transactions: data.transactions,
                 sellPrice: data.sell_price,
+                silverTransactions: data.silver_transactions,
+                silverSellPrice: data.silver_sell_price,
                 lastUpdated: data.updated_at
             }
         };
@@ -149,7 +167,7 @@ app.get('/api/transactions', async (req, res) => {
 // POST /api/transactions - Save all data
 app.post('/api/transactions', async (req, res) => {
     try {
-        const { transactions, sellPrice } = req.body;
+        const { transactions, sellPrice, silverTransactions, silverSellPrice } = req.body;
 
         if (!Array.isArray(transactions)) {
             return res.status(400).json({
@@ -158,7 +176,12 @@ app.post('/api/transactions', async (req, res) => {
             });
         }
 
-        const result = await saveData(transactions, sellPrice || 14.5);
+        const result = await saveData({
+            transactions,
+            sellPrice: sellPrice || 14.5,
+            silverTransactions: silverTransactions || [],
+            silverSellPrice: silverSellPrice || 0
+        });
 
         if (result.success) {
             res.json({
@@ -184,7 +207,12 @@ app.post('/api/transactions', async (req, res) => {
 // DELETE /api/transactions - Clear all data
 app.delete('/api/transactions', async (req, res) => {
     try {
-        const result = await saveData([], 14.5);
+        const result = await saveData({
+            transactions: [],
+            sellPrice: 14.5,
+            silverTransactions: [],
+            silverSellPrice: 0
+        });
 
         if (result.success) {
             res.json({

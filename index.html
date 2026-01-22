@@ -24,115 +24,237 @@
             <p class="tagline">Tính giá vàng - Lãi lỗ realtime</p>
         </header>
 
-        <!-- Current Price Panel -->
-        <section class="current-price-panel glass-card">
-            <div class="panel-header">
-                <span class="panel-icon">📈</span>
-                <h2>Giá Bán Hiện Tại</h2>
-            </div>
-            <div class="price-input-wrapper">
-                <input type="number" id="currentSellPrice" value="14.5" step="any" min="0" inputmode="decimal">
-                <span class="unit">triệu/chỉ</span>
-            </div>
-            <p class="hint">Nhập giá bán để tính lãi/lỗ realtime (dùng dấu chấm cho số thập phân, vd: 14.5)</p>
-        </section>
+        <!-- Tabs -->
+        <div class="metal-tabs">
+            <button class="metal-tab active-gold" id="tabGold">🟡 Vàng</button>
+            <button class="metal-tab" id="tabSilver">⚪ Bạc</button>
+        </div>
 
-        <!-- Transactions Table -->
-        <section class="transactions-section glass-card">
-            <div class="panel-header">
-                <span class="panel-icon">📋</span>
-                <h2>Danh Sách Giao Dịch Mua</h2>
-            </div>
+        <!-- GOLD SECTION -->
+        <div id="gold-section" class="calculator-section active">
+            <!-- Current Price Panel -->
+            <section class="current-price-panel glass-card">
+                <div class="panel-header">
+                    <span class="panel-icon">📈</span>
+                    <h2>Giá Bán Vàng Hiện Tại</h2>
+                </div>
+                <div class="price-input-wrapper">
+                    <input type="number" id="currentSellPrice" value="14.5" step="any" min="0" inputmode="decimal">
+                    <span class="unit">triệu/chỉ</span>
+                </div>
+                <p class="hint">Nhập giá bán để tính lãi/lỗ realtime (dùng dấu chấm cho số thập phân, vd: 14.5)</p>
+            </section>
 
-            <div class="table-wrapper">
-                <table id="transactionsTable">
-                    <thead>
-                        <tr>
-                            <th>STT</th>
-                            <th>Số Lượng</th>
-                            <th>Đơn Vị</th>
-                            <th>SL (Chỉ)</th>
-                            <th>Giá Mua/Chỉ</th>
-                            <th>Thành Tiền</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody id="transactionsBody">
-                        <!-- Dynamic rows will be inserted here -->
-                    </tbody>
-                </table>
-            </div>
+            <!-- Transactions Table -->
+            <section class="transactions-section glass-card">
+                <div class="panel-header">
+                    <span class="panel-icon">📋</span>
+                    <h2>Danh Sách Giao Dịch Mua Vàng</h2>
+                </div>
 
-            <div class="table-actions">
-                <button id="addRowBtn" class="btn btn-primary">
-                    <span>➕</span> Thêm Dòng
-                </button>
-                <button id="loadSampleBtn" class="btn btn-secondary">
-                    <span>📥</span> Tải Dữ Liệu Mẫu
-                </button>
-                <button id="clearAllBtn" class="btn btn-danger">
-                    <span>🗑️</span> Xóa Tất Cả
-                </button>
-            </div>
-        </section>
+                <div class="table-wrapper">
+                    <table id="transactionsTable">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Số Lượng</th>
+                                <th>Đơn Vị</th>
+                                <th>SL (Chỉ)</th>
+                                <th>Giá Mua/Chỉ</th>
+                                <th>Thành Tiền</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="transactionsBody">
+                            <!-- Dynamic rows will be inserted here -->
+                        </tbody>
+                    </table>
+                </div>
 
-        <!-- Summary Panel -->
-        <section class="summary-section">
-            <div class="summary-grid">
-                <!-- Total Chi -->
-                <div class="summary-card glass-card">
-                    <div class="summary-icon">⚖️</div>
-                    <div class="summary-content">
-                        <span class="summary-label">Tổng Số Chỉ</span>
-                        <span class="summary-value" id="totalChi">0</span>
-                        <span class="summary-sub">(<span id="totalCay">0</span> cây)</span>
+                <div class="table-actions">
+                    <button id="addRowBtn" class="btn btn-primary">
+                        <span>➕</span> Thêm Dòng
+                    </button>
+                    <button id="loadSampleBtn" class="btn btn-secondary">
+                        <span>📥</span> Tải Dữ Liệu Mẫu
+                    </button>
+                    <button id="clearAllBtn" class="btn btn-danger">
+                        <span>🗑️</span> Xóa Tất Cả
+                    </button>
+                </div>
+            </section>
+
+            <!-- Summary Panel -->
+            <section class="summary-section">
+                <div class="summary-grid">
+                    <!-- Total Chi -->
+                    <div class="summary-card glass-card">
+                        <div class="summary-icon">⚖️</div>
+                        <div class="summary-content">
+                            <span class="summary-label">Tổng Số Chỉ</span>
+                            <span class="summary-value" id="totalChi">0</span>
+                            <span class="summary-sub">(<span id="totalCay">0</span> cây)</span>
+                        </div>
+                    </div>
+
+                    <!-- Total Buy -->
+                    <div class="summary-card glass-card">
+                        <div class="summary-icon">💵</div>
+                        <div class="summary-content">
+                            <span class="summary-label">Tổng Tiền Mua</span>
+                            <span class="summary-value" id="totalBuy">0</span>
+                            <span class="summary-sub">triệu đồng</span>
+                        </div>
+                    </div>
+
+                    <!-- Break Even -->
+                    <div class="summary-card glass-card">
+                        <div class="summary-icon">📊</div>
+                        <div class="summary-content">
+                            <span class="summary-label">Giá Hòa Vốn</span>
+                            <span class="summary-value" id="breakEven">0</span>
+                            <span class="summary-sub">triệu/chỉ</span>
+                        </div>
+                    </div>
+
+                    <!-- Total Sell -->
+                    <div class="summary-card glass-card">
+                        <div class="summary-icon">💰</div>
+                        <div class="summary-content">
+                            <span class="summary-label">Tổng Tiền Bán</span>
+                            <span class="summary-value" id="totalSell">0</span>
+                            <span class="summary-sub">triệu đồng</span>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Total Buy -->
-                <div class="summary-card glass-card">
-                    <div class="summary-icon">💵</div>
-                    <div class="summary-content">
-                        <span class="summary-label">Tổng Tiền Mua</span>
-                        <span class="summary-value" id="totalBuy">0</span>
-                        <span class="summary-sub">triệu đồng</span>
+                <!-- Profit/Loss Big Card -->
+                <div class="profit-card glass-card" id="profitCard">
+                    <div class="profit-header">
+                        <span class="profit-icon" id="profitIcon">📈</span>
+                        <h2 id="profitLabel">Lãi / Lỗ</h2>
+                    </div>
+                    <div class="profit-value-wrapper">
+                        <span class="profit-value" id="profitValue">0</span>
+                        <span class="profit-unit">triệu đồng</span>
+                    </div>
+                    <div class="profit-percentage" id="profitPercentage">0%</div>
+                </div>
+            </section>
+        </div>
+
+        <!-- SILVER SECTION -->
+        <div id="silver-section" class="calculator-section silver-theme">
+            <!-- Current Price Panel -->
+            <section class="current-price-panel glass-card">
+                <div class="panel-header">
+                    <span class="panel-icon">📈</span>
+                    <h2>Giá Bán Bạc Hiện Tại</h2>
+                </div>
+                <div class="price-input-wrapper">
+                    <input type="number" id="silverSellPrice" value="0.5" step="any" min="0" inputmode="decimal">
+                    <span class="unit">triệu/chỉ</span>
+                </div>
+                <p class="hint">Nhập giá bán bạc (dùng dấu chấm cho số thập phân, vd: 0.5)</p>
+            </section>
+
+            <!-- Transactions Table -->
+            <section class="transactions-section glass-card">
+                <div class="panel-header">
+                    <span class="panel-icon">📋</span>
+                    <h2>Danh Sách Giao Dịch Mua Bạc</h2>
+                </div>
+
+                <div class="table-wrapper">
+                    <table id="silverTransactionsTable">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Số Lượng</th>
+                                <th>Đơn Vị</th>
+                                <th>SL (Chỉ)</th>
+                                <th>Giá Mua/Chỉ</th>
+                                <th>Thành Tiền</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="silverTransactionsBody">
+                            <!-- Dynamic rows will be inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="table-actions">
+                    <button id="silverAddRowBtn" class="btn btn-primary">
+                        <span>➕</span> Thêm Dòng
+                    </button>
+                    <button id="silverLoadSampleBtn" class="btn btn-secondary">
+                        <span>📥</span> Tải Dữ Liệu Mẫu
+                    </button>
+                    <button id="silverClearAllBtn" class="btn btn-danger">
+                        <span>🗑️</span> Xóa Tất Cả
+                    </button>
+                </div>
+            </section>
+
+            <!-- Summary Panel -->
+            <section class="summary-section">
+                <div class="summary-grid">
+                    <!-- Total Chi -->
+                    <div class="summary-card glass-card">
+                        <div class="summary-icon">⚖️</div>
+                        <div class="summary-content">
+                            <span class="summary-label">Tổng Số Lượng</span>
+                            <span class="summary-value" id="silverTotalChi">0</span>
+                            <span class="summary-sub">(<span id="silverTotalCay">0</span> cây)</span>
+                        </div>
+                    </div>
+
+                    <!-- Total Buy -->
+                    <div class="summary-card glass-card">
+                        <div class="summary-icon">💵</div>
+                        <div class="summary-content">
+                            <span class="summary-label">Tổng Tiền Mua</span>
+                            <span class="summary-value" id="silverTotalBuy">0</span>
+                            <span class="summary-sub">triệu đồng</span>
+                        </div>
+                    </div>
+
+                    <!-- Break Even -->
+                    <div class="summary-card glass-card">
+                        <div class="summary-icon">📊</div>
+                        <div class="summary-content">
+                            <span class="summary-label">Giá Hòa Vốn</span>
+                            <span class="summary-value" id="silverBreakEven">0</span>
+                            <span class="summary-sub">triệu/chỉ</span>
+                        </div>
+                    </div>
+
+                    <!-- Total Sell -->
+                    <div class="summary-card glass-card">
+                        <div class="summary-icon">💰</div>
+                        <div class="summary-content">
+                            <span class="summary-label">Tổng Tiền Bán</span>
+                            <span class="summary-value" id="silverTotalSell">0</span>
+                            <span class="summary-sub">triệu đồng</span>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Break Even -->
-                <div class="summary-card glass-card">
-                    <div class="summary-icon">📊</div>
-                    <div class="summary-content">
-                        <span class="summary-label">Giá Hòa Vốn</span>
-                        <span class="summary-value" id="breakEven">0</span>
-                        <span class="summary-sub">triệu/chỉ</span>
+                <!-- Profit/Loss Big Card -->
+                <div class="profit-card glass-card" id="silverProfitCard">
+                    <div class="profit-header">
+                        <span class="profit-icon" id="silverProfitIcon">📈</span>
+                        <h2 id="silverProfitLabel">Lãi / Lỗ</h2>
                     </div>
-                </div>
-
-                <!-- Total Sell -->
-                <div class="summary-card glass-card">
-                    <div class="summary-icon">💰</div>
-                    <div class="summary-content">
-                        <span class="summary-label">Tổng Tiền Bán</span>
-                        <span class="summary-value" id="totalSell">0</span>
-                        <span class="summary-sub">triệu đồng</span>
+                    <div class="profit-value-wrapper">
+                        <span class="profit-value" id="silverProfitValue">0</span>
+                        <span class="profit-unit">triệu đồng</span>
                     </div>
+                    <div class="profit-percentage" id="silverProfitPercentage">0%</div>
                 </div>
-            </div>
-
-            <!-- Profit/Loss Big Card -->
-            <div class="profit-card glass-card" id="profitCard">
-                <div class="profit-header">
-                    <span class="profit-icon" id="profitIcon">📈</span>
-                    <h2 id="profitLabel">Lãi / Lỗ</h2>
-                </div>
-                <div class="profit-value-wrapper">
-                    <span class="profit-value" id="profitValue">0</span>
-                    <span class="profit-unit">triệu đồng</span>
-                </div>
-                <div class="profit-percentage" id="profitPercentage">0%</div>
-            </div>
-        </section>
+            </section>
+        </div>
 
         <!-- Footer -->
         <footer class="footer">
