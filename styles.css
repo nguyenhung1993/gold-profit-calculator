@@ -807,3 +807,19 @@ tbody select option {
 ::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 215, 0, 0.5);
 }
+
+/* Unit Hint */
+.unit-hint {
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-style: italic;
+    text-align: right;
+}
+
+@media (max-width: 768px) {
+    .unit-hint {
+        text-align: center;
+        font-size: 0.8rem;
+    }
+}
