@@ -265,6 +265,7 @@ body {
 .table-wrapper {
     overflow-x: auto;
     margin-bottom: 20px;
+    -webkit-overflow-scrolling: touch; /* Momentum scrolling on iOS */
 }
 
 table {
@@ -680,7 +681,7 @@ tbody select option {
         tbody select {
             padding: 8px 4px;
             /* Reduced horizontal padding */
-            font-size: 0.9rem;
+            font-size: 16px; /* Prevent iOS auto-zoom */
         }
 
         /* Smaller Delete Button on Mobile */

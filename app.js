@@ -124,11 +124,14 @@ window.switchTab = function (type) {
 // ===== API Functions =====
 
 async function checkAPIHealth() {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 2000);
     try {
         const response = await fetch(`${API_URL}/health`, {
             method: 'GET',
-            signal: AbortSignal.timeout(2000)
+            signal: controller.signal
         });
+        clearTimeout(timeoutId);
         return response.ok;
     } catch (error) {
         console.log('⚠️ API not available, using LocalStorage');
@@ -137,8 +140,10 @@ async function checkAPIHealth() {
 }
 
 async function saveToAPI() {
+    // Always save to LocalStorage first for instant persistence
+    saveToLocalStorage();
+
     if (!useAPI) {
-        saveToLocalStorage();
         return;
     }
 
@@ -161,13 +166,13 @@ async function saveToAPI() {
         }
     } catch (error) {
         console.error('API save error:', error);
-        saveToLocalStorage();
+        // Data is already in localStorage, so no fallback needed here
     }
 }
 
 async function loadFromAPI() {
     if (!useAPI) {
-        return loadFromLocalStorage();
+        return false; // Not attempting API load
     }
 
     try {
@@ -175,11 +180,11 @@ async function loadFromAPI() {
         const result = await response.json();
 
         if (result.success && result.data) {
-            // Load Gold Data
+            // Load Gold Data from BE (BE is the source of truth)
             appState.gold.transactions = result.data.transactions || [];
             appState.gold.sellPrice = result.data.sellPrice || 14.5;
 
-            // Load Silver Data (Check for new fields, fallback to defaults)
+            // Load Silver Data
             appState.silver.transactions = result.data.silverTransactions || [];
             appState.silver.sellPrice = result.data.silverSellPrice || 0.5;
 
@@ -194,12 +199,21 @@ async function loadFromAPI() {
             goldEls.sellPriceInput.value = appState.gold.sellPrice;
             silverEls.sellPriceInput.value = appState.silver.sellPrice;
 
-            showStatus('Đã tải dữ liệu từ server');
+            // Save BE data to LocalStorage for next offline load
+            saveToLocalStorage();
+
+            // Re-render UI with latest BE data
+            renderTable('gold');
+            calculateSummary('gold');
+            renderTable('silver');
+            calculateSummary('silver');
+
+            showStatus('Đã đồng bộ dữ liệu từ server');
             return true;
         }
     } catch (error) {
         console.error('API load error:', error);
-        return loadFromLocalStorage();
+        // LocalStorage data is already loaded, no action needed
     }
     return false;
 }
@@ -492,17 +506,15 @@ function attachEvents(type) {
 }
 
 async function init() {
-    useAPI = await checkAPIHealth();
-    if (useAPI) console.log('🌐 Connected to Backend');
-    else console.log('💾 Offline Mode');
-
-    await loadFromAPI();
+    // 1. Load from LocalStorage FIRST for instant display
+    loadFromLocalStorage();
+    console.log('💾 Loaded data from LocalStorage');
 
     // Attach events for both
     attachEvents('gold');
     attachEvents('silver');
 
-    // Initial Render
+    // Initial Render with LocalStorage data
     renderTable('gold');
     calculateSummary('gold');
 
@@ -515,6 +527,15 @@ async function init() {
     // Tab Event Listeners
     document.getElementById('tabGold').addEventListener('click', () => switchTab('gold'));
     document.getElementById('tabSilver').addEventListener('click', () => switchTab('silver'));
+
+    // 2. Check API health and sync from BE in background
+    useAPI = await checkAPIHealth();
+    if (useAPI) {
+        console.log('🌐 Connected to Backend, syncing...');
+        await loadFromAPI(); // This will update state, UI, and localStorage
+    } else {
+        console.log('⚠️ Backend unavailable, using LocalStorage only');
+    }
 }
 
 document.addEventListener('DOMContentLoaded', init);
